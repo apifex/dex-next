@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import NFTAbi from '../abi/NFT.json'
 
 export const nftViewActions = (contractAddress: string) => {
-    const defaultProvider = ethers.getDefaultProvider('rinkeby', { etherscan: 'C5D3Q7PU675DJVJDFQFFA21W9WM46273KN' })
+    const defaultProvider = ethers.getDefaultProvider('rinkeby')
     const nftContract = new ethers.Contract(contractAddress, NFTAbi.abi, defaultProvider)
 
     async function getTokenURI(tokenId: string): Promise<string> {

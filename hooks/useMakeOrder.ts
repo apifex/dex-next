@@ -33,19 +33,19 @@ export const useMakeOrder = ({ setIsOpen, orderType }: IOrderModalProps) => {
     }
 
     async function makeNewOrder() {
-        if (!isValidOrder()) return
+        if (accountInfo.address == '') setErrorMessage('Connect a Wallet first') 
+        if (!isValidOrder()) {
+            console.log(' no valid')
+            return}
         const duration = String(Math.floor((new Date(`${inputValues.endDate} ${inputValues.endTime}`).getTime() - new Date().getTime()) / 1000))
-        console.log('durrrration ', duration)
         setIsProcessing(true)
         const response = await makeOrder(inputValues.nftAddress, inputValues.tokenId, orderType != 'fixed' ? inputValues.startPrice : inputValues.buyItNowPrice, duration, orderType, inputValues.buyItNowPrice)
         if (response == 'success') {
             setIsProcessing(false)
-            setDexMessage('success')
-            setTimeout(() => closeModal(), 200)
+            setTimeout(() => closeModal(), 2000)
         } else {
             setIsProcessing(false)
-            setDexMessage('error')
-            setTimeout(() => closeModal(), 200)
+            setTimeout(() => closeModal(), 2000)
         }
     }
 
@@ -54,11 +54,11 @@ export const useMakeOrder = ({ setIsOpen, orderType }: IOrderModalProps) => {
             setOrderPreview(null)
             return
         }
+        setErrorMessage('Loading Token info...')
         await getTokenInfo(inputValues.nftAddress, inputValues.tokenId)
     }
 
     async function getTokenInfo(nftaddress: string, tokenId: string) {
-        console.log('get token info...')
         try {
             const tokenInfoURI = await nftViewActions(nftaddress).getTokenURI(tokenId)
             const response = await fetch(tokenInfoURI)

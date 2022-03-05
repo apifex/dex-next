@@ -1,13 +1,14 @@
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import { ethers, utils } from "ethers";
+import detectEthereumProvider from '@metamask/detect-provider'
 
 
 export const connectToMetamask = async (): Promise<JsonRpcSigner | null> => {
     try {
-        if (!(window as any).ethereum && (window as any).ethereum.isMetaMask) throw new Error('no metamask installed')
+        const metamask = await detectEthereumProvider() as any
 
-        const provider: Web3Provider = new ethers.providers.Web3Provider((window as any).ethereum)
-
+        const provider: Web3Provider = new ethers.providers.Web3Provider(metamask)
+        
         if (!provider) throw new Error('No valid provider availble')
 
         await provider.send("eth_requestAccounts", []);
@@ -21,7 +22,11 @@ export const connectToMetamask = async (): Promise<JsonRpcSigner | null> => {
 
 export const isConnectedToMetamask = async (): Promise<JsonRpcSigner | null> => {
     try {
-        const provider: Web3Provider = new ethers.providers.Web3Provider((window as any).ethereum)
+ 
+        const metamask = await detectEthereumProvider() as any
+        
+        const provider: Web3Provider = new ethers.providers.Web3Provider(metamask)
+       
         if (!provider) throw new Error('no connection to metamask')
         const signer: JsonRpcSigner = provider.getSigner()
         await signer.getAddress()
