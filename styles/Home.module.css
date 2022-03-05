@@ -1,4 +1,4 @@
-.container {
+/* .container {
   padding: 0 2rem;
 }
 
@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .footer {
   display: flex;
@@ -27,7 +27,7 @@
   align-items: center;
   flex-grow: 1;
 }
-
+/* 
 .title a {
   color: #0070f3;
   text-decoration: none;
@@ -113,4 +113,4 @@
     width: 100%;
     flex-direction: column;
   }
-}
+} */
