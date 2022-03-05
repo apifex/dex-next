@@ -5,7 +5,7 @@ import { IOfferProps } from '../types/types'
 
 export default function MakeOffer({ isMakeOfferOpen, orderInfo, setIsMakeOfferOpen }: IOfferProps) {
 
-  const { confirmOffer, inputHandler , isProcessing, message } = useMakeOffer(orderInfo)
+  const { confirmOffer, inputHandler, isProcessing, message } = useMakeOffer(orderInfo)
 
   const { actualPrice, fixedPrice, tokenName, tokenImageUri, description } = orderInfo.order
 
@@ -65,7 +65,7 @@ export default function MakeOffer({ isMakeOfferOpen, orderInfo, setIsMakeOfferOp
                       <div>
                         <p className='text-gray-700 font-semibold pt-6 mb-6 text-base'>Buy it Now Price: {fixedPrice} ETH</p>
                         <label className='pl-2 text-blue-300 italic'>Your offer: </label>
-                        <input className='my-2 p-2 border-2 rounded-md bg-slate-200 disabled:opacity-75' id='offerValue' value={fixedPrice} disabled/>
+                        <input className='my-2 p-2 border-2 rounded-md bg-slate-200 disabled:opacity-75' id='offerValue' value={fixedPrice} disabled />
                       </div> :
                       <div>
                         <p className='text-gray-700 font-semibold pt-6 mb-6 text-base'>Actual Price: {actualPrice} ETH</p>
@@ -118,7 +118,7 @@ export default function MakeOffer({ isMakeOfferOpen, orderInfo, setIsMakeOfferOp
                         className="m-5 px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
                         onClick={closeModal}
                       >
-                      Cancel
+                        Cancel
                       </button>
                     </div>
                 }

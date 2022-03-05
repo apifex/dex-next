@@ -69,8 +69,8 @@ const OrderCard: React.FC<ICardProps> = (props) => {
                 <p className='text-gray-700 px-2 py-2 text-base'>{description}</p>
             </div>
             <div className='flex flex-col px-6 py-4'>
-                <p className='text-xs text-gray-700 mb-2'>Initial Price: <span className='font-semibold'>{startPrice != '0.0' ? 
-                startPrice : fixedPrice}ETH</span> </p>
+                <p className='text-xs text-gray-700 mb-2'>Initial Price: <span className='font-semibold'>{startPrice != '0.0' ?
+                    startPrice : fixedPrice}ETH</span> </p>
                 <span className='text-gray-700 mr-2 mb-0'>Actual price: <span className='font-semibold'>{actualPrice} ETH</span> </span>
 
             </div>

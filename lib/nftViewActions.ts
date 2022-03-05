@@ -21,5 +21,5 @@ export const nftViewActions = (contractAddress: string) => {
         return await nftContract.isApprovedForAll(owner, operator)
     }
 
-  return {getTokenURI, ownerOf, getApproved, isApprovedForAll}
+    return { getTokenURI, ownerOf, getApproved, isApprovedForAll }
 }

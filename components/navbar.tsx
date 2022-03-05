@@ -10,7 +10,7 @@ const NavBar: FC = () => {
     const { ballance, address } = useWalletContext().accountInfo
     const [isMakeOrderOpen, setIsMakeOrderOpen] = useState<boolean>(false)
     const [orderType, setOrderType] = useState<string>('auction')
-   
+
     const openMakeOrder = (orderType: string) => {
         setIsMakeOrderOpen(true)
         setOrderType(orderType)
@@ -45,7 +45,7 @@ const NavBar: FC = () => {
                 </div>
 
             </div>
-            <MakeOrderModal isOpen={isMakeOrderOpen} setIsOpen={setIsMakeOrderOpen} orderType={orderType}/>
+            <MakeOrderModal isOpen={isMakeOrderOpen} setIsOpen={setIsMakeOrderOpen} orderType={orderType} />
         </nav>
     )
 }

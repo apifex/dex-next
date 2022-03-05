@@ -5,7 +5,13 @@ import { IOrderModalProps } from '../types/types'
 
 export default function MakeOrder({ isOpen, setIsOpen, orderType }: IOrderModalProps) {
 
-  const { inputHandler, loadPreview, makeNewOrder, closeModal, isProcessing, orderPreview, errorMessage } = useMakeOrder({ isOpen, setIsOpen, orderType })
+  const { inputHandler,
+    loadPreview,
+    makeNewOrder,
+    closeModal,
+    isProcessing,
+    orderPreview,
+    errorMessage } = useMakeOrder({ isOpen, setIsOpen, orderType })
 
   return (
     <>

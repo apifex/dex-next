@@ -36,9 +36,9 @@ export const checkBallance = async (signer: JsonRpcSigner): Promise<string> => {
     try {
         const ballance = utils.formatEther(await signer.getBalance())
         return ballance.toString();
-    }catch (error) {
+    } catch (error) {
         console.log("error on check ballance", error)
         return 'Error on check ballance'
     }
-        
+
 }
