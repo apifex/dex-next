@@ -7,8 +7,7 @@ import { ICardProps } from "../types/types";
 
 const OrderCard: React.FC<ICardProps> = (props) => {
     const { accountInfo } = useWalletContext()
-    const [isProcessingCancel, setIsProcessingCancel] = useState({ isProcessing: false, message: '' })
-    const [isProcessingClaim, setIsProcessingClaim] = useState({ isProcessing: false, message: '' })
+    const [isProcessing, setIsProcessing] = useState({ isProcessing: false, message: '' })
     const { tokenName,
         description,
         sellerAddress,
@@ -37,15 +36,15 @@ const OrderCard: React.FC<ICardProps> = (props) => {
                 openOffer(orderIndex, button)
                 break;
             case ('claim'):
-                setIsProcessingClaim({ isProcessing: true, message: '...processing' })
+                setIsProcessing({ isProcessing: true, message: '...processing' })
                 const responseClaim = await claim(orderId)
-                setIsProcessingCancel({ isProcessing: true, message: responseClaim })
+                setIsProcessing({ isProcessing: true, message: responseClaim })
                 setTimeout(() => fetchOrders(), 2000)
                 break;
             case ('cancel'):
-                setIsProcessingCancel({ isProcessing: true, message: '...processing' })
+                setIsProcessing({ isProcessing: true, message: '...processing' })
                 const responseCancel = await cancelOrder(orderId)
-                setIsProcessingCancel({ isProcessing: true, message: responseCancel })
+                setIsProcessing({ isProcessing: true, message: responseCancel })
                 setTimeout(() => fetchOrders(), 2000)
                 break;
         }
@@ -56,8 +55,8 @@ const OrderCard: React.FC<ICardProps> = (props) => {
             <div className='m-2 p-0'>
                 <span className='text-sm text-gray-600 mr-2'>Status: <span className='font-semibold uppercase'>{status}</span></span>
                 {accountInfo.address == sellerAddress && status == 'active' ?
-                    isProcessingCancel.isProcessing ?
-                        <span className='text-sm text-red-700 mr-2'>{isProcessingCancel.message}</span> :
+                    isProcessing.isProcessing ?
+                        <span className='text-sm text-red-700 mr-2'>{isProcessing.message}</span> :
                         <button id="cancel" onClick={buttonHandler}
                             className='w-32 bg-red-500 hover:bg-red-700 text-white font-bold  rounded-full'>
                             Cancel</button> : null}
@@ -76,8 +75,8 @@ const OrderCard: React.FC<ICardProps> = (props) => {
             </div>
             <div>
                 {(accountInfo.address == sellerAddress || accountInfo.address == lastBidderAddress) && status == 'over' ?
-                    isProcessingClaim.isProcessing ?
-                        <span className='text-sm text-green-600 mr-2'>{isProcessingClaim.message}</span> :
+                    isProcessing.isProcessing ?
+                        <span className='text-sm text-green-600 mr-2'>{isProcessing.message}</span> :
                         <button id="claim" onClick={buttonHandler} className='w-40 bg-green-500 hover:bg-green-700 text-white font-bold mx-4 my-2 py-2 px-4 rounded-full'>CLAIM</button>
                     : null}
                 {startPrice != '0.0' && status == 'active' ?

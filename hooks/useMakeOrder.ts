@@ -11,7 +11,6 @@ export const useMakeOrder = ({ setIsOpen, orderType }: IOrderModalProps) => {
     const [isOwnerOrApproved, setIsOwnerOrApproved] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
-    const [dexMessage, setDexMessage] = useState<string | null>(null)
     const [inputValues, setInputValues] = useState({
         nftAddress: '',
         tokenId: '',
@@ -25,17 +24,10 @@ export const useMakeOrder = ({ setIsOpen, orderType }: IOrderModalProps) => {
         setInputValues({ ...inputValues, [event.target.id]: event.target.value })
     }
 
-    function isValidOrder(): boolean {
-        return isOwnerOrApproved &&
-            (orderType != 'fixed' ? Number(inputValues.startPrice) > 0 : true) &&
-            (orderType != 'auction' ? Number(inputValues.buyItNowPrice) > 0 : true) &&
-            (new Date(`${inputValues.endDate} ${inputValues.endTime}`) > new Date())
-    }
-
     async function makeNewOrder() {
         if (accountInfo.address == '') setErrorMessage('Connect a Wallet first') 
         if (!isValidOrder()) {
-            console.log(' no valid')
+            setErrorMessage('this order is not valid')
             return}
         const duration = String(Math.floor((new Date(`${inputValues.endDate} ${inputValues.endTime}`).getTime() - new Date().getTime()) / 1000))
         setIsProcessing(true)
@@ -48,6 +40,14 @@ export const useMakeOrder = ({ setIsOpen, orderType }: IOrderModalProps) => {
             setTimeout(() => closeModal(), 2000)
         }
     }
+
+    function isValidOrder(): boolean {
+        return isOwnerOrApproved &&
+            (orderType != 'fixed' ? Number(inputValues.startPrice) > 0 : true) &&
+            (orderType != 'auction' ? Number(inputValues.buyItNowPrice) > 0 : true) &&
+            (new Date(`${inputValues.endDate} ${inputValues.endTime}`) > new Date())
+    }
+
 
     async function loadPreview() {
         if (inputValues.nftAddress == '' || inputValues.tokenId == '') {
@@ -98,6 +98,6 @@ export const useMakeOrder = ({ setIsOpen, orderType }: IOrderModalProps) => {
         setIsOpen(false)
     }
 
-    return { inputHandler, loadPreview, makeNewOrder, closeModal, isProcessing, orderPreview, errorMessage, dexMessage }
+    return { inputHandler, loadPreview, makeNewOrder, closeModal, isProcessing, orderPreview, errorMessage }
 }
 

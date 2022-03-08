@@ -14,61 +14,12 @@ export const useDexContract = () => {
     const [dexContract, setDexContract] = useState<ethers.Contract>(dexContractWithDefaultProvider)
 
     const { signer } = useWalletContext()
-    const { setOrders } = useOrdersContext()
+    const { updateOrders } = useOrdersContext()
 
     useEffect(() => {
         signer ? setDexContract(dexContract.connect(signer)) : null
     }
         , [signer])
-
-    useEffect(() => {
-        fetchOrders()
-    }, [])
-
-    async function fetchOrders() {
-        try {
-            if (!dexContract) throw new Error('no dex contract')
-
-            const ordersList = await dexViewActions(dexContract).getOrdersList()
-            const orders = []
-
-            for (const order of ordersList) {
-                const orderInfo = await fetchOrderInfo(order)
-                if (orderInfo instanceof Error) throw orderInfo
-                orders.push(orderInfo)
-            }
-            setOrders(orders)
-        } catch (error) {
-            console.log('error when fetching orders', error)
-        }
-    }
-
-    async function fetchOrderInfo(orderId: string): Promise<IOrder | Error> {
-        try {
-            const orderInfo = await dexViewActions(dexContract).getOrderInfo(orderId)
-            const orderStatus = await dexViewActions(dexContract).getOrderStatus(orderId)
-            const { tokenMetadataURI, seller, startPrice, fixedPrice, actualPrice, lastBidder, endTime } = orderInfo
-            const response = await fetch(tokenMetadataURI)
-            const tokenMetadata: INftMetadata = await response.json()
-            const { properties } = tokenMetadata
-
-            return {
-                orderId: orderId,
-                status: orderStatus,
-                sellerAddress: String(seller),
-                lastBidderAddress: String(lastBidder),
-                tokenName: properties.name,
-                description: properties.description,
-                tokenImageUri: properties.image,
-                startPrice: utils.formatEther(startPrice),
-                actualPrice: utils.formatEther(actualPrice),
-                fixedPrice: utils.formatEther(fixedPrice),
-                endTime: new Date(Number(endTime) * 1000).toLocaleString()
-            }
-        } catch (error) {
-            return new Error('error when fetching Order info')
-        }
-    }
 
     async function makeOrder(NFTAddress: string, NFTId: string, price: string, duration: string, orderType: string, fixedPrice?: string,): Promise<string> {
         if (!dexContract) return 'no valid dex contract'
@@ -92,7 +43,7 @@ export const useDexContract = () => {
             }
             let txResponse = await makeOrderTx.wait()
             if (txResponse.status == 1) {
-                await fetchOrders()
+                await updateOrders()
                 return 'success'
             } else throw new Error('error')
         } catch (error) {
@@ -135,5 +86,5 @@ export const useDexContract = () => {
         }
     }
 
-    return { makeOrder, bid, buyItNow, claim, cancelOrder, fetchOrders }
+    return { makeOrder, bid, buyItNow, claim, cancelOrder }
 }

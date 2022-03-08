@@ -51,6 +51,7 @@ export interface IAccountInfo {
 }
 
 export interface IWalletContext {
+    isConnected: boolean,
     signer: JsonRpcSigner | null,
     accountInfo: IAccountInfo,
     updateAccountInfo: (accountInfo: IAccountInfo) => void,
@@ -58,9 +59,18 @@ export interface IWalletContext {
     updateSigner: (newSigner: JsonRpcSigner) => void
 }
 
+enum Filter {
+    all,
+    onlyActive,
+    onlyOwner,
+    onlyBuyItNow,
+    onlyBid
+   }
+
 export interface IOrdersContext {
     orders: IOrder[],
-    setOrders: Dispatch<SetStateAction<IOrder[]>>
+    updateOrders: Dispatch<SetStateAction<IOrder[]>>,
+    setFilterType: Dispatch<SetStateAction<Filter>>
 }
 
 export interface IOrderModalProps {
@@ -96,3 +106,11 @@ interface MetaMaskError extends Error {
         message: string
     }
 }
+
+export enum Filter {
+    all,
+    onlyActive,
+    onlyOwner,
+    onlyBuyItNow,
+    onlyBid
+   }

@@ -41,7 +41,6 @@ export const useWallet = () => {
         } catch (error) {
             console.log('Error when connecting to metamask', error)
         }
-
     }
 
     return { isConnected, signer, connect }

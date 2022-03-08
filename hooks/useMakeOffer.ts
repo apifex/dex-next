@@ -1,10 +1,13 @@
 import { useState, ChangeEventHandler } from 'react'
+import { useWalletContext } from '../context/walletContext'
 import { useDexContract } from '../hooks/useDexContract'
 import { IOrder, IMessage, MetaMaskError } from '../types/types'
 
 
 
 export const useMakeOffer = (orderInfo: { order: IOrder, offerType: string }) => {
+    const { isConnected } = useWalletContext()
+
     const { bid, buyItNow } = useDexContract()
 
     const { order, offerType } = orderInfo
@@ -25,6 +28,7 @@ export const useMakeOffer = (orderInfo: { order: IOrder, offerType: string }) =>
         setIsProcessing(true)
         const fn = (offerType == 'bid') ? bid : buyItNow
         try {
+            if(!isConnected) throw Error('Connect a wallet befor doing transaction.')
             const tx = await fn(order.orderId, offerValue)
             const txResponse = await tx.wait()
             if (txResponse.status == 1) {
