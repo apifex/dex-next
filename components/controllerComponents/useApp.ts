@@ -15,8 +15,6 @@ const useApp = () => {
         }
     )
 
-    console.log(process.env.NEXT_PUBLIC_ETHERSCAN, process.env.NEXT_PUBLIC_DEXADDRESS)
-
     useEffect(() => {
 
         async function fetchOrdersFromContract() {
