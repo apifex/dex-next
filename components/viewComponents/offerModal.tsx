@@ -1,21 +1,16 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
-import { useMakeOffer } from '../hooks/useMakeOffer'
-import { IOfferProps } from '../types/types'
+import { useMakeOffer } from '../controllerComponents/useMakeOffer'
+import { IOfferProps } from '../../types/types'
 
-export default function MakeOffer({ isMakeOfferOpen, orderInfo, setIsMakeOfferOpen }: IOfferProps) {
-
-  const { confirmOffer, inputHandler, isProcessing, message } = useMakeOffer(orderInfo)
-
-  const { actualPrice, fixedPrice, tokenName, tokenImageUri, description } = orderInfo.order
-
-  const closeModal = () => {
-    setIsMakeOfferOpen(false)
-  }
+export default function MakeOffer({closeModal, offerType, orderInfo }: IOfferProps) {
+  
+  const { orderId, actualPrice, fixedPrice, tokenName, tokenImageUri, description } = orderInfo
+  const { confirmOffer, inputHandler, isProcessing, message } = useMakeOffer({orderId, offerType, fixedPrice})
 
   return (
     <>
-      <Transition appear show={isMakeOfferOpen} as={Fragment}>
+      <Transition appear show={true} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -61,11 +56,11 @@ export default function MakeOffer({ isMakeOfferOpen, orderInfo, setIsMakeOfferOp
                   <div className="basis-2/4 m-1">
                     {message.success ? <p className='mt-12 text-green-600 text-base'>{message.success}</p> : null}
                     {message.error ? <p className='mt-12 text-red-600 text-base'>{message.error}</p> : null}
-                    {orderInfo.offerType == 'buyItNow' ?
+                    {offerType == 'buyItNow' ?
                       <div>
                         <p className='text-gray-700 font-semibold pt-6 mb-6 text-base'>Buy it Now Price: {fixedPrice} ETH</p>
                         <label className='pl-2 text-blue-300 italic'>Your offer: </label>
-                        <input className='my-2 p-2 border-2 rounded-md bg-slate-200 disabled:opacity-75' id='offerValue' value={fixedPrice} disabled />
+                        <input className='my-2 p-2 border-2 rounded-md bg-slate-200 disabled:opacity-75' id='offerValue' value={fixedPrice} onLoad={inputHandler} disabled />
                       </div> :
                       <div>
                         <p className='text-gray-700 font-semibold pt-6 mb-6 text-base'>Actual Price: {actualPrice} ETH</p>

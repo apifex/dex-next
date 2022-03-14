@@ -1,7 +1,7 @@
 import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Fragment } from 'react'
-import { IOrderMenuProps } from '../types/types'
+import { IOrderMenuProps, IUserToken } from '../../types/types'
 
 const orderType = [
   {
@@ -21,7 +21,11 @@ const orderType = [
   },
 ]
 
-export default function OrderTypeMenu({ openMakeOrder }: IOrderMenuProps) {
+interface IProps {
+    tokens: IUserToken[]
+}
+
+export default function UserTokenList({tokens}: IProps) {
   return (
     <div>
       <Popover >
@@ -33,7 +37,7 @@ export default function OrderTypeMenu({ openMakeOrder }: IOrderMenuProps) {
                 flex items-center text-xl px-4 py-2 leading-none border rounded shadow-lg shadow-red-800 text-white border-red-500 hover:bg-white hover:bg-opacity-30 lg:mt-0">
                 `}
             >
-              <span>Make Order</span>
+              <span>Your NFT ({tokens.length})</span>
               <ChevronDownIcon
                 className={`${open ? '' : 'text-opacity-70'}
                   ml-2 h-5 w-5 text-red-400 group-hover:text-opacity-80 transition ease-in-out duration-150`}
@@ -52,18 +56,21 @@ export default function OrderTypeMenu({ openMakeOrder }: IOrderMenuProps) {
               <Popover.Panel className="absolute z-10 right-5 w-screen max-w-sm px-4 mt-3">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative grid gap-8 bg-white p-7">
-                    {orderType.map((item) => (
+                    {tokens.map((item) => (
                       <a
-                        key={item.name}
-                        onClick={() => openMakeOrder(item.type)}
+                        key={item.tokenId}
+                        // onClick={() => openMakeOrder(item.type)}
                         className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       >
                         <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
-                          <item.icon aria-hidden="true" />
+                          <img src="/NFT_Icon.png"/>
                         </div>
                         <div className="ml-4">
+                        <p className="text-sm font-medium text-gray-900">
+                            Contract Address:  {item.contractAddress.substring(0, 6)}...{item.contractAddress.substring(item.contractAddress.length - 5, item.contractAddress.length)}
+                          </p>
                           <p className="text-sm font-medium text-gray-900">
-                            {item.name}
+                            Token ID: {item.tokenId}
                           </p>
 
                         </div>

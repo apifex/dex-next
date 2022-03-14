@@ -12,12 +12,28 @@ export interface IOrder {
     endTime: string,
 }
 
-export interface ICardProps extends IOrder {
+
+export interface IFilters {
+    active: boolean,
+    auction: boolean,
+    buyItNow: boolean,
+    your: boolean
+}
+export interface ICardProps {
     orderIndex: number,
-    openOffer: (orderIndex: number, offerType: string) => void,
-    claim: (orderId: string) => Promise<string>,
-    cancelOrder: (orderId: string) => Promise<string>,
-    fetchOrders: () => void
+    orderId: string,
+    filters: IFilters
+}
+
+export interface IUserToken {
+    contractAddress: string,
+    tokenId: string
+}
+
+export interface ITokenInfo {
+    tokenName: string,
+    description: string,
+    tokenImageUri: string
 }
 
 export interface IOrderInfo {
@@ -51,12 +67,9 @@ export interface IAccountInfo {
 }
 
 export interface IWalletContext {
-    isConnected: boolean,
-    signer: JsonRpcSigner | null,
     accountInfo: IAccountInfo,
     updateAccountInfo: (accountInfo: IAccountInfo) => void,
     clearAccountInfo: () => void,
-    updateSigner: (newSigner: JsonRpcSigner) => void
 }
 
 enum Filter {
@@ -65,7 +78,7 @@ enum Filter {
     onlyOwner,
     onlyBuyItNow,
     onlyBid
-   }
+}
 
 export interface IOrdersContext {
     orders: IOrder[],
@@ -74,21 +87,19 @@ export interface IOrdersContext {
 }
 
 export interface IOrderModalProps {
-    isOpen: boolean,
     setIsOpen: Dispatch<SetStateAction<boolean>>,
     orderType: string
 }
 
 export interface IOfferProps {
-    isMakeOfferOpen: boolean,
-    setIsMakeOfferOpen: Dispatch<SetStateAction<boolean>>,
-    orderInfo: { order: IOrder, offerType: string },
+    closeModal: () => void
+    offerType: string,
+    orderInfo: IOrder,
 }
 
 export interface IOrderPreview {
     tokenName: string,
     description: string,
-    sellerAddress: string,
     tokenImageUri: string
 }
 
@@ -106,11 +117,3 @@ interface MetaMaskError extends Error {
         message: string
     }
 }
-
-export enum Filter {
-    all,
-    onlyActive,
-    onlyOwner,
-    onlyBuyItNow,
-    onlyBid
-   }
