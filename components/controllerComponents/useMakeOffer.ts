@@ -3,7 +3,7 @@ import DexController from '../../controllers/dexTransactionsController'
 
 export const useMakeOffer = (order: { orderId: string, offerType: string, fixedPrice: string}) => {
 
-    const { bid, buyItNow } = DexController.getInstance('use make  offer')
+    const { bid, buyItNow } = DexController.getInstance()
 
     const { orderId, offerType, fixedPrice} = order
     const [message, setMessage] = useState<{error: string | null, success: string | null}>({ error: null, success: null })

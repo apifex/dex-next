@@ -47,7 +47,7 @@ const useOrderCard = (orderId: string, filters: IFilters) => {
     }, [accountInfo, orderInfo])
 
     const buttonHandler: MouseEventHandler<HTMLButtonElement> = async (event) => {
-        const dexTx = DexController.getInstance('use order')
+        const dexTx = DexController.getInstance()
         
         const buttonId = event.currentTarget.id
         

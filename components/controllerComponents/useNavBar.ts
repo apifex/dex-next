@@ -6,7 +6,7 @@ import fetchUserTokenList from '../../utils/fetchUserTokenList'
 
 
 export const useNavBar = () => {
-    const wallet = WalletController.getInstance('nav barrrr')
+    const wallet = WalletController.getInstance()
     const {accountInfo, updateAccountInfo} = useWalletContext()
 
     const [userTokens, setUserTokens] = useState<IUserToken[]>([])
