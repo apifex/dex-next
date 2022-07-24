@@ -12,6 +12,7 @@ Off Chain part:
     - wallet info after connection (ballance and NFTs)
     - aftere connection there is possibility to buy or bid in active auctions.
     - 3 types of orders: 'Buy it Now', 'Fixed price', 'mixed order'
+    - 4 types of fileters: 'Only active', 'only auction', 'only buy it now', 'only your'
     - NFT metadatas stored on Pinata.cloud
 
     Examples datas use NFT tokens made with 256 colors.
